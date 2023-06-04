@@ -1,8 +1,11 @@
 import random
 
 
+from env import OPENAI_API_KEYS
+
+
 def get_openai_api_key():
-    openai_api_keys = ['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']
+    openai_api_keys = OPENAI_API_KEYS
     if len(openai_api_keys) > 0:
         return random.choice(openai_api_keys)
     else:
