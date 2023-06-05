@@ -7,15 +7,23 @@ SWITCH = True
 
 
 def _get_logger():
-    log = logging.getLogger('log')
+    log = logging.getLogger("log")
     log.setLevel(logging.DEBUG)
     console_handle = logging.StreamHandler(sys.stdout)
-    console_handle.setFormatter(logging.Formatter('[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d] - %(message)s',
-                                                  datefmt='%Y-%m-%d %H:%M:%S'))
+    console_handle.setFormatter(
+        logging.Formatter(
+            "[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d] - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
+    )
 
-    file_handle = logging.FileHandler('log.log', mode='a')
-    file_handle.setFormatter(logging.Formatter('[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d] - %(message)s',
-                                               datefmt='%Y-%m-%d %H:%M:%S'))
+    file_handle = logging.FileHandler("log.log", mode="a")
+    file_handle.setFormatter(
+        logging.Formatter(
+            "[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d] - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
+    )
     log.addHandler(console_handle)
     log.addHandler(file_handle)
     return log
@@ -55,6 +63,8 @@ def exception(e):
 
 # 日志句柄
 logger = _get_logger()
-logger.info('[System] Service started on: {0}'.format(
-    datetime.now(timezone(timedelta(hours=8)))
-))
+logger.info(
+    "[System] Service started on: {0}".format(
+        datetime.now(timezone(timedelta(hours=8)))
+    )
+)

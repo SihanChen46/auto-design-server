@@ -5,14 +5,14 @@ Base = declarative_base()
 
 
 class Conversation(Base):
-    __tablename__ = 'conversations'
+    __tablename__ = "conversations"
     conversation_id = Column(String(36), primary_key=True)
     user_id = Column(String(36))
     created_timestamp = Column(DateTime, nullable=False)
 
 
 class Message(Base):
-    __tablename__ = 'messages'
+    __tablename__ = "messages"
     msg_id = Column(String(36), primary_key=True)
     conversation_id = Column(String(36), nullable=False)
     user_id = Column(String(36))
@@ -22,7 +22,7 @@ class Message(Base):
 
 
 class Design(Base):
-    __tablename__ = 'designs'
+    __tablename__ = "designs"
     design_id = Column(String(36), primary_key=True)
     conversation_id = conversation_id = Column(String(36), nullable=False)
     user_id = Column(String(36))
@@ -31,7 +31,7 @@ class Design(Base):
 
 
 class Understanding(Base):
-    __tablename__ = 'understandings'
+    __tablename__ = "understandings"
     understanding_id = Column(String(36), primary_key=True)
     conversation_id = conversation_id = Column(String(36), nullable=False)
     user_id = Column(String(36))
@@ -40,7 +40,7 @@ class Understanding(Base):
 
 
 class Diagram(Base):
-    __tablename__ = 'diagrams'
+    __tablename__ = "diagrams"
     diagram_id = Column(String(36), primary_key=True)
     conversation_id = conversation_id = Column(String(36), nullable=False)
     user_id = Column(String(36))

@@ -1,6 +1,6 @@
 class DataManager:
 
-    '''handles interations with databse'''
+    """handles interations with databse"""
 
     def __init__(self):
         pass

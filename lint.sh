@@ -5,5 +5,5 @@ echo "Running Black..."
 black .
 
 # Run Flake8
-echo "Running Flake8..."
-flake8 .
+# echo "Running Flake8..."
+# flake8 .

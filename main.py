@@ -8,7 +8,7 @@ message_handler = MessageHandler()
 
 @app.post("/chat")
 def chat(message: Message):
-    '''handle new user messages'''
+    """handle new user messages"""
     resp_message = message_handler.handle(message)
     return resp_message
 

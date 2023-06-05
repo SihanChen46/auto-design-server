@@ -13,28 +13,28 @@ class ChatChain(Chain):
 
     @property
     def input_keys(self) -> List[str]:
-        return ['input']
+        return ["input"]
 
     @property
     def output_keys(self) -> List[str]:
-        return ['response']
+        return ["response"]
 
     def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
         converstation_chain = self._build_conversation_chain()
-        outputs = {'response': converstation_chain.run(inputs)}
+        outputs = {"response": converstation_chain.run(inputs)}
         return outputs
 
     def _build_conversation_chain(self):
         llm = ChatOpenAI(
             temperature=0,
             openai_api_key=get_openai_api_key(),
-            model_name='gpt-3.5-turbo',
+            model_name="gpt-3.5-turbo",
             frequency_penalty=0.0,
-            presence_penalty=1
+            presence_penalty=1,
         )
         prompt = PromptTemplate(
             input_variables=["input", "history"],
-            template='''
+            template="""
 ***
 System: As a tech lead, your objective is to assist users in designing software architectures that align with their requirements. You possess the following skills:
 1. In software design, you excel at maintaining simplicity, modularity, and cohesion while reducing coupling. You promote abstraction and encapsulation, ensuring scalability and extensibility.
@@ -44,9 +44,10 @@ System: As a tech lead, your objective is to assist users in designing software 
 {history}
 User: {input}
 Tech Lead:
-'''
+""",
         )
         memory = self.conversation_memory
         conversation_chain = ConversationChain(
-            prompt=prompt, llm=llm, verbose=True, memory=memory)
+            prompt=prompt, llm=llm, verbose=True, memory=memory
+        )
         return conversation_chain

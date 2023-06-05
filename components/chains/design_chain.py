@@ -10,29 +10,29 @@ from common.utils import get_openai_api_key
 
 
 class DesignChain(Chain):
-
     @property
     def input_keys(self) -> List[str]:
-        return ['input']
+        return ["input"]
 
     @property
     def output_keys(self) -> List[str]:
-        return ['response']
+        return ["response"]
 
     def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
         chain = self._build_conversation_chain()
-        outputs = {'response': chain.run(inputs)}
+        outputs = {"response": chain.run(inputs)}
         return outputs
 
     def _build_conversation_chain(self):
         llm = ChatOpenAI(
             temperature=0,
             openai_api_key=get_openai_api_key(),
-            model_name='gpt-3.5-turbo',
-            max_tokens=2000)
+            model_name="gpt-3.5-turbo",
+            max_tokens=2000,
+        )
         prompt = PromptTemplate(
             input_variables=["input"],
-            template='''
+            template="""
 ***
 System:
 As a tech lead, your expertise lies in ensuring simplicity, modularity, and cohesion, while minimizing coupling between components.
@@ -70,8 +70,7 @@ Now
 Input: 
 {input}
 Output:
-'''
+""",
         )
-        chain = LLMChain(
-            prompt=prompt, llm=llm, verbose=True)
+        chain = LLMChain(prompt=prompt, llm=llm, verbose=True)
         return chain
