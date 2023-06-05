@@ -7,7 +7,7 @@ from langchain.chains.base import Chain
 from common.utils import get_openai_api_key
 
 
-class DesignChain(Chain):
+class DiagramChain(Chain):
     @property
     def input_keys(self) -> List[str]:
         return ["input"]
@@ -32,40 +32,38 @@ class DesignChain(Chain):
             input_variables=["input"],
             template="""
 ***
-System:
-As a tech lead, your expertise lies in ensuring simplicity, modularity, and cohesion, while minimizing coupling between components.
-Now your goal is to support users in designing software components.
-For each component that has a upstream/downstream component, there should be a data field defined indicating the data passed between them.
-Keep in mind the following guidelines:
-1. Use concise and informative naming, avoiding the use of special characters.
-2. Ensure that the components encompass all the necessary features as per the requirements.
+System: Given this design, generate a Mermaid.JS code that draws a diagram representing the relationship of each component, use node to represent component and edge to represent connections between components, put name of data on links as well
+
+Remember: 
+1. Don't put spaces in the node labels but assign them unique identifiers
+2. Don't put special characters in naming
+3. Make sure there is no missing connections between some components.
 ***
+
 Example:
 Input:
-Overall mission of the app is understand the user's input using NLP algorithm
-Here are some specific features:
-
-1. the app will need to process different user's request independently
-2. the app will have a UI for user to input text
-3. the app will need to understand user's message using NLP techniques.
-Output:
 {{
     'Conversation Manager Component': {{
         'upstream': {{
             'User Interface Component': {{
-                data: 'User input text'
+                data: 'User input (text)'
             }},
         }},
         'downstream: {{
-            'Natural Language Understanding Component': {{
-                data: ['Processed user input text', 'context information']
+            'Natural Language Understanding (NLU) Component': {{
+                data: ['Processed user input (text)', 'context information']
             }},
         }}
     }},
 }}
+Output:
+flowchart LR
+    A[User Interface Component] -->|User input| B[User Management Component]
+    B -->|Processed user input| C[Natural Language Understanding Component]
+    B -->|context information| C
 
 Now
-Input: 
+Input:
 {input}
 Output:
 """,
