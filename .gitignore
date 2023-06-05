@@ -2,3 +2,5 @@
 .DS_Store
 log.log
 .vscode
+venv
+env.py
