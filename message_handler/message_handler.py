@@ -1,6 +1,3 @@
-
-
-class MessageHandler():
-
+class MessageHandler:
     def __init__(self):
         pass
