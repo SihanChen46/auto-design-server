@@ -3,21 +3,18 @@ from data_types.common import Id, Timestamp
 from enum import Enum
 from pydantic import BaseModel
 
-
-MessageStatus = Literal["LOADING", "DONE", "FAILED"]
+MessageStatus = Literal['LOADING', 'DONE', 'FAILED']
 
 
 class CreatorRole(str, Enum):
-    User = "user"
-    Admin = "admin"
-    Moderator = "moderator"
+    User = "User"
+    Admin = "Admin"
+    Assistant = "Assistant"
 
 
 class Message(BaseModel):
-    id: Id
+    msgId: Id
     conversationId: str
-    creatorId: Id
     creatorRole: CreatorRole
-    createdAt: Timestamp
     content: str
     status: MessageStatus
