@@ -1,6 +1,6 @@
 # encoding:utf-8
 from typing import List, Dict
-from langchain.llms import ChatOpenAI
+from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chains.base import Chain
@@ -17,16 +17,16 @@ class SummaryChain(Chain):
         return ["response"]
 
     def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
-        chain = self._build_conversation_chain()
+        chain = self._build_chain()
         outputs = {"response": chain.run(inputs)}
         return outputs
 
-    def _build_conversation_chain(self):
-        llm = ChatOpenAI(
+    def _build_chain(self):
+        llm = OpenAI(
+            model_name="text-davinci-003",
             temperature=0,
-            openai_api_key=get_openai_api_key(),
-            model_name="gpt-3.5-turbo",
             max_tokens=2000,
+            openai_api_key=get_openai_api_key(),
         )
         prompt = PromptTemplate(
             input_variables=["input"],

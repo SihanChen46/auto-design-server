@@ -3,7 +3,11 @@ from data_types.common import Id, Timestamp
 from enum import Enum
 from pydantic import BaseModel
 
-MessageStatus = Literal["LOADING", "DONE", "FAILED"]
+
+class MessageStatus(str, Enum):
+    LOADING = "LOADING"
+    DONE = "DONE"
+    FAILED = "FAILED"
 
 
 class CreatorRole(str, Enum):

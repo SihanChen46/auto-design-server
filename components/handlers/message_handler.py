@@ -1,12 +1,11 @@
-from data_types import Message, CreatorRole
+from data_types import Message, CreatorRole, MessageStatus
 import uuid
 from components.chains import ChatChain
-from components.session import SessionManager
 
 
 class MessageHandler:
-    def __init__(self):
-        self.session_manager = SessionManager()
+    def __init__(self, session_manager):
+        self.session_manager = session_manager
 
     def handle(self, req_message: Message) -> Message:
         message_content = req_message.content
@@ -20,10 +19,10 @@ class MessageHandler:
 
         resp_message = {
             "msgId": str(uuid.uuid4()),
-            "conversationId": req_message.conversationId,
+            "conversationId": conversation_id,
             "creatorRole": CreatorRole.Assistant,
             "content": resp_content,
-            "status": "DONE",
+            "status": MessageStatus.DONE,
         }
 
         return resp_message
