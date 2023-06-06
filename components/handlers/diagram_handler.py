@@ -1,4 +1,4 @@
-from data_types import Diagram, DiagramClick
+from data_types import Diagram, DiagramClick, MessageStatus
 import uuid
 from components.chains import SummaryChain, DesignChain, DiagramChain
 
@@ -21,9 +21,9 @@ class DiagramHandler:
 
         resp_diagram = {
             "diagramId": str(uuid.uuid4()),
-            "conversationId": "xxx",
+            "conversationId": conversation_id,
             "diagramCode": diagram_code,
-            "status": "DONE",
+            "status": MessageStatus.DONE,
         }
 
         return resp_diagram

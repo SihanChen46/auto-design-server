@@ -1,4 +1,4 @@
-from data_types import Message, CreatorRole
+from data_types import Message, CreatorRole, MessageStatus
 import uuid
 from components.chains import ChatChain
 
@@ -22,7 +22,7 @@ class MessageHandler:
             "conversationId": conversation_id,
             "creatorRole": CreatorRole.Assistant,
             "content": resp_content,
-            "status": "DONE",
+            "status": MessageStatus.DONE,
         }
 
         return resp_message
