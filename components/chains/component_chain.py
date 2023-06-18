@@ -22,6 +22,7 @@ system: you are a tech lead who's good at designing softwares, your goal is the 
 This is an example
 User: Give me a list of components for the design of a e-commerce platform and their core functionality.
 You:
+User Interface: Provides an easy-to-navigate and visually pleasing interface where users can interact with the different functionalities of the e-commerce platform. 
 Product Catalog: Manages and displays product information and inventory for users to browse and purchase.
 Shopping Cart: Enables users to add, remove, and manage products before proceeding to checkout.
 Order Management: Handles the processing, tracking, and management of user orders from placement to fulfillment.

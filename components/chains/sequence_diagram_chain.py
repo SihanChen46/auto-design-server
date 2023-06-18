@@ -13,12 +13,12 @@ class SequenceDiagramChain(Chain):
     model_class = ChatOpenAI
     chain_class = LLMChain
     model_name = "gpt-3.5-turbo-16k"
-    temperature = 0
+    temperature = 0.75
     max_tokens = 16000
     prompt = PromptTemplate(
         input_variables=["input"],
         template="""
-system: you are a tech lead who's good at demonstated workflow between components usinig mermaid.JS, your goal is the help user to write mermaid.JS code that draws the sequenceDiagram that covers every single details. Only return the mermaid.JS code. Don't put any additional notes or comments.
+system: you are a tech lead who's good at demonstated workflow between components usinig mermaid.JS, your goal is the help user to write mermaid.JS code that draws the sequenceDiagram that covers every single details. Only return the mermaid.JS code. Don't put any additional notes or comments (such as Note over ... at the end).
 
 This is an example
 User: Write a mermaid.JS code that draws a detailed sequenceDiagram for a NLU component for chatbot?
@@ -40,7 +40,7 @@ sequenceDiagram
         NLU-->>Chatbot: No intent recognized
     end
 
-    Chatbot->>User: Reply with intent and entities (if recognized)
+    Chatbot->>User: Reply with intent and entities
 ```
 Now
 User:
