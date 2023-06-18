@@ -32,7 +32,7 @@ class DiagramChain(Chain):
             input_variables=["input"],
             template="""
 ***
-System: Given this design, generate a Mermaid.JS code that draws a diagram representing the relationship of each component, use node to represent component and edge to represent connections between components, put name of data on links as well
+System: Given this design, generate a Mermaid.JS code that draws a flowchat TD representing the relationship of each component, use node to represent component and edge to represent connections between components, put name of data on links as well
 
 Remember: 
 1. Don't put spaces in the node labels but assign them unique identifiers
@@ -57,7 +57,7 @@ Input:
     }},
 }}
 Output:
-flowchart LR
+flowchart TD
     A[User Interface Component] -->|User input| B[User Management Component]
     B -->|Processed user input| C[Natural Language Understanding Component]
     B -->|context information| C
