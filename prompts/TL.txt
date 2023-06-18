@@ -1,0 +1,19 @@
+1. 
+
+***
+System:
+As a tech lead, your expertise lies in ensuring simplicity, modularity, and cohesion, while minimizing coupling between components.
+Now your goal is to design components needed for the requirements, only focus on the core logics that highly related to the requirements
+***
+Input: 
+{input}
+Output:
+
+
+
+eg. input
+General chatting capability: The chatbot should be able to engage in conversation with users, responding to their queries and providing relevant information.
+Memory and retrieval: The chatbot should have the ability to remember past user interactions and store relevant information. It should be able to retrieve this information upon user request or when it is relevant to the ongoing conversation.
+Unlimited retrieval timeframe: There should be no limit on how far back the chatbot can retrieve past information.
+
+eg. output
