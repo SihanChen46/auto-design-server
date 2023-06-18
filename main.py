@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from dotenv import load_dotenv
 from data_types import Message, DiagramClick, Requirement, RequirementResp
 from components.handlers import MessageHandler, DiagramHandler, RequirementHandler
 from components.session import SessionManager
 
+load_dotenv()
 app = FastAPI()
 # session_manager = SessionManager()
 requirement_handler = RequirementHandler()
@@ -24,7 +26,7 @@ def chat(requirement: Requirement) -> RequirementResp:
 
 
 # @app.post("/update_sequence_diagram")
-# def chat(diagram_click: DiagramClick):
+# def chat(diagram_click: DiagramClick):s
 #     """handle new user messages"""
 #     resp_diagram = diagram_handler.handle(diagram_click)
 #     return resp_diagram

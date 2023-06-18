@@ -4,3 +4,6 @@ log.log
 .vscode
 venv
 env.py
+.env
+
+tmp

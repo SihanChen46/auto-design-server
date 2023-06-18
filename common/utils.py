@@ -1,11 +1,10 @@
 import random
-
-
-from env import OPENAI_API_KEYS
+import os
+import ast
 
 
 def get_openai_api_key():
-    openai_api_keys = OPENAI_API_KEYS
+    openai_api_keys = ast.literal_eval(os.getenv('OPENAI_API_KEYS'))
     if len(openai_api_keys) > 0:
         return random.choice(openai_api_keys)
     else:

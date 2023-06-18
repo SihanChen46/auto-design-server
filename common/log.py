@@ -17,15 +17,15 @@ def _get_logger():
         )
     )
 
-    file_handle = logging.FileHandler("log.log", mode="a")
-    file_handle.setFormatter(
-        logging.Formatter(
-            "[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d] - %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S",
-        )
-    )
+    # file_handle = logging.FileHandler("tmp/log.log", mode="a")
+    # file_handle.setFormatter(
+    #     logging.Formatter(
+    #         "[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d] - %(message)s",
+    #         datefmt="%Y-%m-%d %H:%M:%S",
+    #     )
+    # )
     log.addHandler(console_handle)
-    log.addHandler(file_handle)
+    # log.addHandler(file_handle)
     return log
 
 
