@@ -18,7 +18,7 @@ class SequenceDiagramChain(Chain):
     prompt = PromptTemplate(
         input_variables=["input"],
         template="""
-system: you are a tech lead who's good at demonstated workflow between components usinig mermaid.JS, your goal is the help user to write mermaid.JS code that draws the sequenceDiagram that covers every single details. Only return the mermaid.JS code. Don't put any additional notes or comments (such as Note over ... at the end).
+system: you are a tech lead who's good at demonstated workflow between components usinig mermaid.JS, your goal is the help user to write mermaid.JS code that draws the sequenceDiagram that covers every single details. Only return the mermaid.JS code. Make sure no syntax error in the mermaid code.
 
 This is an example
 User: Write a mermaid.JS code that draws a detailed sequenceDiagram for a NLU component for chatbot?
@@ -41,6 +41,35 @@ sequenceDiagram
     end
 
     Chatbot->>User: Reply with intent and entities
+```
+This is another example
+User: Write a mermaid.JS code that draws a detailed sequenceDiagram for a payment component for amazon?
+You:
+```
+sequenceDiagram
+    participant C as Customer
+    participant F as Frontend
+    participant P as PaymentService
+    participant A as AmazonAPI
+
+    C->>F: Choose product
+    F->>C: Display product details
+    C->>F: Add to cart
+    F->>C: Display cart details
+    C->>F: Proceed to checkout
+    F->>C: Display checkout form
+    C->>F: Enter payment information
+    F->>P: Send payment information
+    P->>A: Request to process payment
+    alt Payment Successful
+        A->>P: Confirm payment
+        P->>F: Confirm payment
+        F->>C: Confirm order and payment
+    else Payment Unsuccessful
+        A->>P: Reject payment
+        P->>F: Reject payment
+        F->>C: Payment unsuccessful, request to re-enter information
+    end
 ```
 Now
 User:

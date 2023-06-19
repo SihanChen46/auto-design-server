@@ -6,10 +6,12 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chains.base import Chain
 from common.utils import get_openai_api_key
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from components.chains.utils.stream_callback import ThreadedGenerator, StreamingGeneratorCallbackHandler
+from langchain.callbacks.manager import CallbackManager
 
 
 class ComponentChain(Chain):
+    token_generator: ThreadedGenerator
     model_class = ChatOpenAI
     chain_class = LLMChain
     model_name = "gpt-3.5-turbo-0613"
@@ -56,9 +58,10 @@ You:
             openai_api_key=get_openai_api_key(),
             model_name=self.model_name,
             max_tokens=self.max_tokens - num_tokens,
-            streaming=True, callbacks=[StreamingStdOutCallbackHandler()]
+            streaming=True, callback_manager=CallbackManager([StreamingGeneratorCallbackHandler(self.token_generator)])
         )
 
         chain = self.chain_class(prompt=self.prompt, llm=llm, verbose=True)
         outputs = {"response": chain.run(inputs)}
+        self.token_generator.close()
         return outputs

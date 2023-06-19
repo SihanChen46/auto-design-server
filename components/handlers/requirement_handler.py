@@ -1,6 +1,7 @@
 from data_types import RequirementResp, Requirement
 # import uuid
 from components.chains import WorkflowChain, ComponentChain, SequenceDiagramChain, ClassDiagramChain
+from common import log
 
 
 class RequirementHandler:
@@ -8,6 +9,7 @@ class RequirementHandler:
         pass
 
     def handle(self, requirement: Requirement) -> RequirementResp:
+        log.info(f"Got Requirement: {requirement}")
         session_id = requirement.sessionId
         requirement_content = requirement.content
         components = ComponentChain().run(requirement_content)
@@ -23,5 +25,6 @@ class RequirementHandler:
             "workflow": workflow,
             "sequenceDiagramCode": sequence_diagram_code,
         }
+        log.info(f"Returned RequirementResp: {resp}")
 
         return resp

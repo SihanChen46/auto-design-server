@@ -1,4 +1,5 @@
 # encoding:utf-8
+from common import log
 from typing import List, Dict
 import tiktoken
 from langchain.chat_models import ChatOpenAI
@@ -6,10 +7,13 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chains.base import Chain
 from common.utils import get_openai_api_key
+from components.chains.utils.stream_callback import ThreadedGenerator, StreamingGeneratorCallbackHandler
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.callbacks.manager import CallbackManager
 
 
 class WorkflowChain(Chain):
+    token_generator: ThreadedGenerator
     model_class = ChatOpenAI
     chain_class = LLMChain
     model_name = "gpt-3.5-turbo-16k"
@@ -49,10 +53,10 @@ You:
             openai_api_key=get_openai_api_key(),
             model_name=self.model_name,
             max_tokens=self.max_tokens - num_tokens,
-            streaming=True, callbacks=[StreamingStdOutCallbackHandler()]
+            streaming=True, callback_manager=CallbackManager([StreamingGeneratorCallbackHandler(self.token_generator), StreamingStdOutCallbackHandler])
         )
 
         chain = self.chain_class(prompt=self.prompt, llm=llm, verbose=True)
-        # TODO: splitting
         outputs = {"response": chain.run(inputs)}
+        self.token_generator.close()
         return outputs
