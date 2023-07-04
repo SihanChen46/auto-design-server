@@ -1,0 +1,347 @@
+System: you are a tech lead who's good at designing data types for software, your goal is the help user to define the data types based on their list of components and sequence diagram workflow. Follow a good engineer practice considering clarity, simplicity and Low Coupling. Only return the data types.
+This is an example
+
+User:
+List of Components:
+```
+Search Bar: Allows users to enter keywords or hashtags they want to search for on Twitter.
+Search Algorithm: Processes the user's search query and retrieves relevant tweets based on various factors such as relevance, popularity, and recency.
+Indexing System: Organizes the tweets and user data in a searchable index to optimize search performance.
+Ranking System: Ranks the search results based on their relevance to the user's query, taking into account factors such as engagement, author credibility, and recency.
+User Interface: Presents the search results in a visually appealing and user-friendly format, allowing users to easily browse and interact with the tweets.
+Filtering Options: Provides various options for users to filter the search results based on criteria such as date, location, language, and user type (e.g., verified accounts).
+Real-time Updates: Continuously updates the search results as new tweets matching the user's query are posted, ensuring users have access to the most recent information.
+Advanced Search Features: Offers advanced search functionality, including boolean operators, exact phrase matching, and filtering by media type (e.g., photos, videos).
+Personalization: Takes into account the user's preferences, past search history, and social connections to deliver personalized search results tailored to their interests.
+Analytics and Metrics: Tracks and analyzes search usage data to improve the search engine's performance, identify trends, and optimize search algorithms.v
+```
+Sequence Diagram:
+```
+sequenceDiagram
+    participant User
+    participant SearchBar
+    participant SearchAlgorithm
+    participant IndexingSystem
+    participant RankingSystem
+    participant UserInterface
+    participant RealTimeUpdates
+    participant AdvancedSearchFeatures
+    participant Personalization
+    participant AnalyticsMetrics
+
+    User->>SearchBar: Enter keywords or hashtags
+    SearchBar->>SearchAlgorithm: Send search query
+    SearchAlgorithm->>IndexingSystem: Retrieve relevant tweets
+    IndexingSystem->>SearchAlgorithm: Return relevant tweets
+    SearchAlgorithm->>RankingSystem: Rank search results
+    RankingSystem->>SearchAlgorithm: Return ranked search results
+    SearchAlgorithm->>UserInterface: Send ranked search results
+    UserInterface->>User: Display search results
+    User->>UserInterface: Browse and interact with tweets
+    UserInterface->>UserInterface: Apply filtering options
+    RealTimeUpdates->>SearchAlgorithm: Monitor new tweets
+    SearchAlgorithm->>RealTimeUpdates: Send matching tweets
+    User->>SearchBar: Enter new keywords or hashtags
+    SearchBar->>SearchAlgorithm: Send new search query
+    SearchAlgorithm->>IndexingSystem: Retrieve new relevant tweets
+    IndexingSystem->>SearchAlgorithm: Return new relevant tweets
+    SearchAlgorithm->>RankingSystem: Rank new search results
+    RankingSystem->>SearchAlgorithm: Return new ranked search results
+    SearchAlgorithm->>UserInterface: Send new ranked search results
+    UserInterface->>User: Display updated search results
+    AdvancedSearchFeatures->>SearchAlgorithm: Perform additional search functionality
+    Personalization->>SearchAlgorithm: Take user preferences into account
+    AnalyticsMetrics->>SearchAlgorithm: Track and analyze search usage data
+```
+Interfaces:
+```
+SearchAlgorithm:
+  process_search_query(query) -> processed_query
+  tokenize_search_query(query) -> query_tokens
+  normalize_search_query(query) -> normalized_query
+  execute_search(query) -> search_results
+  update_search_index(tweet_updates) -> update_status
+
+TweetIndexer:
+  fetch_matching_tweets(query) -> matching_tweets
+  index_tweet(tweet) -> indexed_tweet
+  update_tweet_index(tweet_updates) -> update_status
+
+TweetRanker:
+  sort_tweets_by_rank(tweets) -> ranked_tweets
+  modify_ranking_parameters(parameters) -> update_status
+
+UserInterface:
+  show_search_results(tweets)
+  show_tweet(tweet)
+  show_user_profile(user_profile)
+  navigate_tweets() -> browsed_tweets
+  implement_filters(filter_options) -> filtered_tweets
+  display_error_message(error_message)
+  initiate_login()
+
+TweetUpdateMonitor:
+  initiate_tweet_monitoring() -> monitoring_status
+  terminate_tweet_monitoring() -> monitoring_status
+  fetch_new_tweets() -> new_tweets_batch
+  distribute_notifications(new_tweets)
+
+AdvancedSearcher:
+  execute_advanced_search(query) -> advanced_search_results
+  search_tweets_by_date(query, date) -> dated_results, search_status
+  search_tweets_by_location(query, location) -> location_specific_results, search_status
+  search_tweets_by_user(query, user) -> user_specific_results, search_status
+
+UserPreferenceManager:
+  implement_user_preferences(user_preferences) -> personalized_interface
+  modify_user_preferences(updated_preferences) -> update_status
+  fetch_user_preferences() -> current_preferences
+
+AnalyticsMonitor:
+  monitor_search_usage(usage_data)
+  monitor_search_query(search_query)
+  monitor_successful_search_query(successful_query)
+  monitor_failed_search_query(failed_query)
+  monitor_login_attempts(user)
+  monitor_user_activity(user_activity)
+```
+You:
+```
+SearchQuery:
+    raw_query: string
+    tokenized_query: list of string
+    query_time: int
+    boolean_operators: list of string
+
+Tweet:
+    id: string
+    content: string
+    user_id: string
+    timestamp: int
+    location: string
+    retweets_count: int
+    likes_count: int
+    replies_count: int
+
+SearchResult:
+    tweets: list of Tweet
+    query: SearchQuery
+    total_matches: int
+    search_time: float
+
+User:
+    id: string
+    username: string
+    name: string
+    profile_image_url: string
+    verified: boolean
+    following: list of string
+    followers: list of string
+    liked_tweets: list of string
+    retweeted_tweets: list of string
+    replied_tweets: list of string
+
+FilterOptions:
+    date_range: tuple of int
+    location: string
+    language: string
+    user_type: string
+    user_id: string
+    includes_media: boolean
+    hashtags: list of string
+
+UserPreferences:
+    preferred_languages: list of string
+    preferred_topics: list of string
+
+AnalyticsData:
+    search_queries: list of SearchQuery
+    successful_search_queries: list of SearchQuery
+    failed_search_queries: list of SearchQuery
+    user_logins: list of User
+    user_activity: dict (key: string, value: list of Tweet)
+```
+
+Now
+User:
+List of Components:
+```
+User Interface:
+Provides an intuitive and visually appealing interface for users to browse and interact with the different features and products on the ecommerce webapp.
+Product Catalog:
+Manages and displays a comprehensive list of products available for purchase, including product images, descriptions, pricing information, and stock availability.
+Shopping Cart:
+Enables users to add desired products to their cart, view and modify the contents of their cart, and proceed to checkout when ready.
+Payment Gateway:
+Integrates with various payment providers to securely process and authorize payments from users, ensuring a smooth and secure checkout experience.
+User Authentication:
+Allows users to create accounts, log in, and manage their personal information, such as shipping addresses and payment methods.
+Order Management:
+Handles the processing, tracking, and management of user orders, including order confirmation, order status updates, and order history.
+Reviews and Ratings:
+Allows users to provide feedback and ratings on products they have purchased, helping other users make informed decisions.
+Search and Filtering:
+Enables users to search for specific products based on keywords, categories, or other relevant filters, to quickly find desired items.
+Wishlist:
+Allows users to save products they are interested in for future reference, making it easier to keep track of desired items.
+Shipping and Delivery:
+Integrates with shipping carriers to calculate shipping costs, generate shipping labels, and track the delivery status of orders.
+Customer Support:
+Provides a platform for users to contact customer support for any inquiries, issues, or assistance needed during their shopping experience.
+```
+Sequence Diagram:
+```
+sequenceDiagram
+    participant User
+    participant UserAuthentication as "User Authentication"
+    participant UserInterface as "User Interface"
+    participant ProductCatalog as "Product Catalog"
+    participant SearchFilter as "Search and Filtering"
+    participant ShoppingCart as "Shopping Cart"
+    participant PaymentGateway as "Payment Gateway"
+    participant PaymentProvider as "Payment Provider"
+    participant OrderManagement as "Order Management"
+    participant EmailService as "Email Service"
+    participant OrderTracking as "Order Tracking"
+    participant ReviewsRatings as "Reviews and Ratings"
+    participant Wishlist as "Wishlist"
+    participant CustomerSupport as "Customer Support"
+    participant ShippingDelivery as "Shipping and Delivery"
+    participant ShippingCarriers as "Shipping Carriers"
+
+    User->>UserAuthentication: Open webapp, log in/register
+    UserAuthentication->>UserAuthentication: Authenticate user
+    UserAuthentication-->>UserInterface: User authenticated
+    UserInterface->>ProductCatalog: Retrieve product list
+    ProductCatalog->>ProductCatalog: Get product details from database
+    ProductCatalog-->>UserInterface: Display product details
+    UserInterface->>SearchFilter: Search for products
+    SearchFilter->>SearchFilter: Get relevant products from database
+    SearchFilter-->>UserInterface: Display search results
+    UserInterface->>ShoppingCart: Add products to cart
+    ShoppingCart->>ShoppingCart: Store selected items in cart
+    ShoppingCart-->>UserInterface: Display cart details
+    UserInterface->>ShoppingCart: View and modify cart
+    ShoppingCart->>ShoppingCart: Update quantities, remove items
+    ShoppingCart-->>UserInterface: Display updated cart
+    UserInterface->>PaymentGateway: Proceed to checkout
+    PaymentGateway->>PaymentGateway: Securely process payment
+    PaymentGateway->>PaymentProvider: Transmit payment data
+    PaymentProvider->>PaymentProvider: Authorize payment
+    alt Payment Authorized
+        PaymentProvider-->>PaymentGateway: Confirm payment
+        PaymentGateway-->>OrderManagement: Notify successful transaction
+        OrderManagement->>OrderManagement: Create order record
+        OrderManagement->>EmailService: Send order confirmation email
+        EmailService-->>User: Send order confirmation email
+        OrderManagement-->>UserInterface: Display order confirmation
+    else Payment Unauthorized
+        PaymentProvider-->>PaymentGateway: Reject payment
+        PaymentGateway-->>UserInterface: Display payment unsuccessful message
+        UserInterface->>PaymentGateway: Request to re-enter payment information
+        PaymentGateway-->>UserInterface: Display payment form
+    end
+    UserInterface->>ReviewsRatings: Provide product feedback
+    ReviewsRatings->>ReviewsRatings: Store feedback in database
+    ReviewsRatings-->>UserInterface: Display feedback on product page
+    UserInterface->>Wishlist: Add/Remove products
+    Wishlist->>Wishlist: Store selected items in wishlist
+    Wishlist-->>UserInterface: Display updated wishlist
+    UserInterface->>CustomerSupport: Contact support
+    CustomerSupport->>CustomerSupport: Receive user inquiries/issues
+    CustomerSupport-->>CustomerSupport: Provide assistance/response
+    CustomerSupport-->>User: Send response/solution
+    UserInterface->>UserAuthentication: Update personal information
+    UserAuthentication->>UserAuthentication: Update user information
+    UserAuthentication-->>PaymentGateway: Update payment methods
+    UserAuthentication-->>ShippingDelivery: Update shipping addresses
+    UserInterface->>ShippingDelivery: Calculate shipping costs
+    ShippingDelivery->>ShippingCarriers: Interact with shipping carriers
+    ShippingCarriers->>ShippingCarriers: Handle shipment process
+    ShippingCarriers-->>UserInterface: Retrieve delivery status updates
+    UserInterface->>OrderTracking: Track order status
+    OrderTracking->>OrderTracking: Retrieve order status from database
+    OrderTracking-->>UserInterface: Display order status updates
+    OrderTracking-->>OrderManagement: Retrieve order details
+    OrderManagement->>OrderManagement: Get order details from database
+    OrderManagement-->>UserInterface: Display order history
+```
+Interfaces:
+```
+UserAuthentication:
+  register_user(user_details) -> registration_status
+  login_user(login_details) -> login_status
+  authenticate_user(user_id) -> authentication_status
+  update_user_info(user_id, updated_info) -> update_status
+
+UserInterface:
+  display_products(product_list)
+  display_search_results(search_results)
+  show_product_details(product_id)
+  show_cart_details(cart_items)
+  show_order_confirmation(order_confirmation)
+  show_payment_form()
+  show_error_message(error_message)
+  display_feedback(feedback)
+  show_wishlist(wishlist)
+  show_user_info(user_id)
+  display_shipping_costs(shipping_costs)
+  display_order_status(order_status)
+  display_order_history(order_history)
+
+ProductCatalog:
+  get_product_list() -> product_list
+  get_product_details(product_id) -> product_details
+
+SearchFilter:
+  get_relevant_products(query) -> relevant_products
+  apply_filters(filter_options) -> filtered_products
+
+ShoppingCart:
+  add_product_to_cart(product_id, quantity) -> add_status
+  remove_product_from_cart(product_id) -> remove_status
+  modify_quantity(product_id, new_quantity) -> modify_status
+  get_cart_contents() -> cart_contents
+
+PaymentGateway:
+  process_payment(payment_data) -> payment_status
+  send_payment_to_provider(payment_data) -> transaction_status
+
+OrderManagement:
+  notify_transaction_status(transaction_status) -> notification_status
+  create_order_record(transaction_data) -> order_record
+  get_order_details(order_id) -> order_details
+
+EmailService:
+  send_email(email_data) -> email_status
+
+ReviewsRatings:
+  store_feedback(product_id, feedback_data) -> feedback_status
+  get_product_feedback(product_id) -> product_feedback
+
+Wishlist:
+  add_product_to_wishlist(product_id) -> add_status
+  remove_product_from_wishlist(product_id) -> remove_status
+  get_wishlist_contents() -> wishlist_contents
+
+CustomerSupport:
+  receive_inquiry(inquiry_data)
+  provide_assistance(inquiry_id, response_data) -> assistance_status
+
+ShippingDelivery:
+  calculate_shipping_cost(address_data, package_data) -> shipping_cost
+  update_shipping_address(user_id, new_address_data) -> update_status
+  interact_with_shipping_carriers(shipping_request) -> interaction_status
+
+ShippingCarriers:
+  handle_shipment(shipment_data) -> shipment_status
+  get_delivery_status(shipment_id) -> delivery_status
+
+OrderTracking:
+  retrieve_order_status(order_id) -> order_status
+  update_order_status(order_id, new_status) -> update_status
+
+PaymentProvider:
+  authorize_payment(payment_data) -> authorization_status
+```
+You:

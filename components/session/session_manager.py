@@ -1,42 +1,40 @@
-from langchain.memory import ConversationBufferMemory
 from common import log
+from typing import Dict, List
 
 
 class SessionManager(object):
 
     """
-    Manage the conversationmemory for each conversation window in cache
-
-    {
-        conversation_id: {
-            conversation_memory: Langchain Memory Object,
-        }
-    }
-
+    Manage the all middle results for each session. Store everything in string
     """
 
     def __init__(self):
         log.debug("[SessionManager] initialied")
         self.dict = {}
 
-    def get_conversation_memory(self, conversation_id):
-        session = self.get_session(conversation_id)
+    def get_content(self, session_id, key) -> str:
+        session = self.get_session(session_id)
 
-        if not session["conversation_memory"]:
-            memory = ConversationBufferMemory(
-                ai_prefix="Tech Lead", human_prefix="User"
-            )
-            session["conversation_memory"] = memory
+        if key not in session:
+            content = ''
+        else:
+            content = session[key]
+        log.info(
+            f'[SessionManager] get_content: session_id: {session_id}, key: {key}, content: {content}')
+        return content
 
-        return session["conversation_memory"]
+    def save_content(self, session_id, key, content) -> None:
+        log.info(
+            f'[SessionManager] save_content: session_id: {session_id}, key: {key}, content: {content}')
+        session = self.get_session(session_id)
+        session[key] = content
 
-    def get_session(self, conversation_id):
-        if conversation_id not in self.dict:
+    def get_session(self, session_id) -> Dict:
+        if session_id not in self.dict:
             session = {}
-            session["conversation_memory"] = None
-            self.dict[conversation_id] = session
-        session = self.dict.get(conversation_id)
+            self.dict[session_id] = session
+        session = self.dict.get(session_id)
         return session
 
-    def clear_session(self, conversation_id):
-        self.dict.pop(conversation_id, None)
+    def clear_session(self, session_id):
+        self.dict.pop(session_id, None)
