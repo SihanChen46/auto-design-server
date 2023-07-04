@@ -1,3 +1,5 @@
 from components.session.session_manager import SessionManager
 
-__all__ = ["SessionManager"]
+session_manager = SessionManager()
+
+__all__ = ["SessionManager", "session_manager"]

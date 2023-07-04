@@ -6,19 +6,22 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chains.base import Chain
 from common.utils import get_openai_api_key
+from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from common import log
 
 
 class SequenceDiagramChain(Chain):
     model_class = ChatOpenAI
     chain_class = LLMChain
-    model_name = "gpt-3.5-turbo-16k"
+    model_name = "gpt-3.5-turbo-0613"
     temperature = 0.75
-    max_tokens = 16000
+    max_tokens = 4000
     prompt = PromptTemplate(
         input_variables=["input"],
         template="""
-system: you are a tech lead who's good at demonstated workflow between components usinig mermaid.JS, your goal is the help user to write mermaid.JS code that draws the sequenceDiagram that covers every single details. Only return the mermaid.JS code. Make sure no syntax error in the mermaid code.
+system: you are a tech lead who's good at demonstated workflow between components usinig mermaid.JS, your goal is the help user to write mermaid.JS code that draws the sequenceDiagram that covers every single details.
+Only return the mermaid.JS code. Make sure no syntax error in the mermaid code before finishing.
 
 This is an example
 User: Write a mermaid.JS code that draws a detailed sequenceDiagram for a NLU component for chatbot?
@@ -97,11 +100,10 @@ You:
             openai_api_key=get_openai_api_key(),
             model_name=self.model_name,
             max_tokens=self.max_tokens - num_tokens,
-            streaming=True,
-            callbacks=[StreamingStdOutCallbackHandler()]
+            streaming=True, callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
         )
 
-        chain = self.chain_class(prompt=self.prompt, llm=llm, verbose=True)
-        # TODO: splitting
+        chain = self.chain_class(prompt=self.prompt, llm=llm, verbose=False)
         outputs = {"response": chain.run(inputs)}
+        log.info("[SequenceDiagramChain] output - {0}".format(outputs))
         return outputs

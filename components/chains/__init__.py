@@ -6,6 +6,12 @@ from components.chains.sequence_diagram_chain import SequenceDiagramChain
 from components.chains.class_diagram_chain import ClassDiagramChain
 from components.chains.component_chain import ComponentChain
 from components.chains.workflow_chain import WorkflowChain
+from components.chains.data_type_interface_chain import DataTypeInterfaceChain
+from components.chains.file_structure_chain import FileStructureChain
+from components.chains.implementation_chain import ImplementationChain
 
-__all__ = ["ChatChain", "SummaryChain", "DesignChain",
-           "DiagramChain", "WorkflowChain", "ComponentChain", "ClassDiagramChain", "SequenceDiagramChain"]
+__all__ = [
+    "ChatChain", "SummaryChain", "DesignChain",
+    "DiagramChain", "WorkflowChain", "ComponentChain", "ClassDiagramChain", "SequenceDiagramChain",
+    "DataTypeInterfaceChain", "FileStructureChain", "ImplementationChain"
+]

@@ -8,6 +8,8 @@ from langchain.chains.base import Chain
 from common.utils import get_openai_api_key
 from components.chains.utils.stream_callback import ThreadedGenerator, StreamingGeneratorCallbackHandler
 from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from common import log
 
 
 class ComponentChain(Chain):
@@ -20,9 +22,9 @@ class ComponentChain(Chain):
     prompt = PromptTemplate(
         input_variables=["input"],
         template="""
-system: you are a tech lead who's good at designing softwares, your goal is the help user to define the components in their software. Only return the components
+system: you are a tech lead who's good at designing softwares, your goal is the help user to define the components in their software. Don't ask clarification questions, just do the design and return only the components
 This is an example
-User: Give me a list of components for the design of a e-commerce platform and their core functionality.
+User: Give me a list of components for the design of `build an e-commerce platform` and their core functionality.
 You:
 User Interface: Provides an easy-to-navigate and visually pleasing interface where users can interact with the different functionalities of the e-commerce platform. 
 Product Catalog: Manages and displays product information and inventory for users to browse and purchase.
@@ -35,7 +37,7 @@ Search and Filtering: Enables users to search for specific products and apply fi
 Inventory Management: Tracks and manages product inventory levels to ensure accurate availability and restocking.
 
 Now
-User: {input}. Give me a list of components for the design that covers the requirement, and their core functionality
+User: Give me a list of components for the design of `{input}`, and their core functionality
 You:
 """,
     )
@@ -49,8 +51,10 @@ You:
         return ["response"]
 
     def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
+        log.info("[ComponentChain] input - {0}".format(inputs))
         encoding = tiktoken.encoding_for_model(self.model_name)
         prompted_input = self.prompt.format(**inputs)
+        log.info(prompted_input)
         num_tokens = len(encoding.encode(prompted_input))
 
         llm = self.model_class(
@@ -58,10 +62,11 @@ You:
             openai_api_key=get_openai_api_key(),
             model_name=self.model_name,
             max_tokens=self.max_tokens - num_tokens,
-            streaming=True, callback_manager=CallbackManager([StreamingGeneratorCallbackHandler(self.token_generator)])
+            streaming=True, callback_manager=CallbackManager([StreamingGeneratorCallbackHandler(self.token_generator), StreamingStdOutCallbackHandler()])
         )
 
-        chain = self.chain_class(prompt=self.prompt, llm=llm, verbose=True)
+        chain = self.chain_class(prompt=self.prompt, llm=llm, verbose=False)
         outputs = {"response": chain.run(inputs)}
         self.token_generator.close()
+        log.info("[ComponentChain] output - {0}".format(outputs))
         return outputs

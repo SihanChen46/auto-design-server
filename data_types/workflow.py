@@ -4,8 +4,6 @@ from pydantic import BaseModel
 
 class WorkflowReq(BaseModel):
     sessionId: Id
-    requirement: str
-    components: str
 
 
 class WorkflowResp(BaseModel):

@@ -1,0 +1,328 @@
+System: you are a tech lead who's good at building software, your goal is to help the user design their project file stucture so it's organized and can deploy easily.
+You will start with creating an "entrypoint" file, then structure the necessary files that will be imported by that file, and so on. Follow a language and framework appropriate best practice for file naming convention.
+Ensure that the files are designed to contain all necessary imports, types etc. Make sure that the structured files are compatible with each other in terms of code organization. Before you finish, double check that all parts of the architecture are represented within the file structure.
+Demonstrate the file structure using json, only return the json.
+
+This is an example
+User:
+Data Types:
+```
+SearchQuery:
+    raw_query: string
+    tokenized_query: list of string
+    query_time: int
+    boolean_operators: list of string
+
+Tweet:
+    id: string
+    content: string
+    user_id: string
+    timestamp: int
+    location: string
+    retweets_count: int
+    likes_count: int
+    replies_count: int
+
+SearchResult:
+    tweets: list of Tweet
+    query: SearchQuery
+    total_matches: int
+    search_time: float
+
+User:
+    id: string
+    username: string
+    name: string
+    profile_image_url: string
+    verified: boolean
+    following: list of string
+    followers: list of string
+    liked_tweets: list of string
+    retweeted_tweets: list of string
+    replied_tweets: list of string
+
+FilterOptions:
+    date_range: tuple of int
+    location: string
+    language: string
+    user_type: string
+    user_id: string
+    includes_media: boolean
+    hashtags: list of string
+
+UserPreferences:
+    preferred_languages: list of string
+    preferred_topics: list of string
+
+AnalyticsData:
+    search_queries: list of SearchQuery
+    successful_search_queries: list of SearchQuery
+    failed_search_queries: list of SearchQuery
+    user_logins: list of User
+    user_activity: dict (key: string, value: list of Tweet)
+```
+Interfaces:
+```
+SearchAlgorithm:
+  process_search_query(query: SearchQuery) -> SearchQuery
+  tokenize_search_query(query: SearchQuery) -> list[string]
+  normalize_search_query(query: SearchQuery) -> SearchQuery
+  execute_search(query: SearchQuery) -> SearchResult
+  update_search_index(tweet_updates: list[Tweet]) -> string
+
+TweetIndexer:
+  fetch_matching_tweets(query: SearchQuery) -> list[Tweet]
+  index_tweet(tweet: Tweet) -> string
+  update_tweet_index(tweet_updates: list[Tweet]) -> string
+
+TweetRanker:
+  sort_tweets_by_rank(tweets: list[Tweet]) -> list[Tweet]
+  modify_ranking_parameters(parameters: dict) -> string
+
+UserInterface:
+  show_search_results(search_result: SearchResult) -> None
+  show_tweet(tweet: Tweet) -> None
+  show_user_profile(user: User) -> None
+  navigate_tweets() -> list[Tweet]
+  implement_filters(filter_options: FilterOptions, tweets: list[Tweet]) -> list[Tweet]
+  display_error_message(error_message: string) -> None
+  initiate_login() -> User
+
+TweetUpdateMonitor:
+  initiate_tweet_monitoring() -> string
+  terminate_tweet_monitoring() -> string
+  fetch_new_tweets() -> list[Tweet]
+  distribute_notifications(new_tweets: list[Tweet]) -> None
+
+AdvancedSearcher:
+  execute_advanced_search(query: SearchQuery) -> SearchResult
+  search_tweets_by_date(query: SearchQuery, date: tuple[int, int]) -> list[Tweet], string
+  search_tweets_by_location(query: SearchQuery, location: string) -> list[Tweet], string
+  search_tweets_by_user(query: SearchQuery, user: User) -> list[Tweet], string
+
+UserPreferenceManager:
+  implement_user_preferences(user_preferences: UserPreferences) -> None
+  modify_user_preferences(updated_preferences: UserPreferences) -> string
+  fetch_user_preferences() -> UserPreferences
+
+AnalyticsMonitor:
+  monitor_search_usage(usage_data: AnalyticsData) -> None
+  monitor_search_query(search_query: SearchQuery) -> None
+  monitor_successful_search_query(successful_query: SearchQuery) -> None
+  monitor_failed_search_query(failed_query: SearchQuery) -> None
+  monitor_login_attempts(user: User) -> None
+  monitor_user_activity(user_activity: dict[string, list[Tweet]]) -> None
+```
+Can you design the file structure for this project in this programming language: python
+
+You:
+```
+{
+  "twitter_search_engine": {
+    "app.py": {},
+    "components": {
+      "__init__.py": {},
+      "user_interface.py": {},
+      "search_algorithm.py": {},
+      "tweet_indexer.py": {},
+      "tweet_ranker.py": {},
+      "tweet_update_monitor.py": {},
+      "advanced_searcher.py": {},
+      "user_preference_manager.py": {},
+      "analytics_monitor.py": {}
+    }
+    "models": {
+      "__init__.py": {},
+      "search_query.py": {},
+      "tweet.py": {},
+      "search_result.py": {},
+      "user.py": {},
+      "filter_options.py": {},
+      "user_preferences.py": {},
+      "analytics_data.py": {}
+    },
+    "utils": {
+      "__init__.py": {},
+      "common_functions.py": {},
+      "constants.py": {}
+    },
+    "tests": {
+      "__init__.py": {},
+      "test_search_algorithm.py": {},
+      "test_tweet_indexer.py": {},
+      "test_tweet_ranker.py": {},
+      "test_user_interface.py": {},
+      "test_tweet_update_monitor.py": {},
+      "test_advanced_searcher.py": {},
+      "test_user_preference_manager.py": {},
+      "test_analytics_monitor.py": {}
+    },
+    "config": {
+      "__init__.py": {},
+      "settings.py": {},
+      "logging.py": {}
+    },
+    "static": {},
+    "templates": {},
+    "README.md": {},
+    ".gitignore": {}
+  }
+}
+```
+
+Now
+User:
+Data Types:
+```
+Product:
+    id: string
+    name: string
+    description: string
+    price: float
+    image_url: string
+    stock: int
+    category: string
+    ratings: list of Rating
+
+Rating:
+    user_id: string
+    product_id: string
+    rating: int
+    review: string
+
+User:
+    id: string
+    username: string
+    password_hash: string
+    email: string
+    shipping_address: string
+    payment_method: string
+
+CartItem:
+    user_id: string
+    product_id: string
+    quantity: int
+
+Order:
+    id: string
+    user_id: string
+    order_items: list of CartItem
+    total_cost: float
+    payment_method: string
+    order_status: string
+    shipping_address: string
+    timestamp: int
+
+Payment:
+    user_id: string
+    order_id: string
+    amount: float
+    payment_method: string
+    payment_status: string
+
+Shipping:
+    order_id: string
+    user_id: string
+    carrier: string
+    tracking_number: string
+    shipping_cost: float
+    estimated_delivery_date: int
+
+CustomerSupportTicket:
+    id: string
+    user_id: string
+    issue: string
+    status: string
+    timestamp: int
+
+WishlistItem:
+    user_id: string
+    product_id: string
+
+SearchFilter:
+    keyword: string
+    category: string
+    price_range: tuple of float
+    rating: int
+```
+Interfaces:
+```
+UserAuthentication:
+  register_user(user_details: User) -> string
+  login_user(login_details: dict[string, string]) -> string
+  authenticate_user(user_id: string) -> string
+  update_user_info(user_id: string, updated_info: dict) -> string
+
+UserInterface:
+  display_products(product_list: list[Product]) -> None
+  display_search_results(search_results: list[Product]) -> None
+  show_product_details(product_id: string) -> Product
+  show_cart_details(cart_items: list[CartItem]) -> None
+  show_order_confirmation(order_confirmation: Order) -> None
+  show_payment_form() -> dict
+  show_error_message(error_message: string) -> None
+  display_feedback(feedback: list[Rating]) -> None
+  show_wishlist(wishlist: list[WishlistItem]) -> None
+  show_user_info(user_id: string) -> User
+  display_shipping_costs(shipping_costs: float) -> None
+  display_order_status(order_status: string) -> None
+  display_order_history(order_history: list[Order]) -> None
+
+ProductCatalog:
+  get_product_list() -> list[Product]
+  get_product_details(product_id: string) -> Product
+
+SearchFilter:
+  get_relevant_products(query: string) -> list[Product]
+  apply_filters(filter_options: SearchFilter) -> list[Product]
+
+ShoppingCart:
+  add_product_to_cart(product_id: string, quantity: int) -> string
+  remove_product_from_cart(product_id: string) -> string
+  modify_quantity(product_id: string, new_quantity: int) -> string
+  get_cart_contents() -> list[CartItem]
+
+PaymentGateway:
+  process_payment(payment_data: Payment) -> string
+  send_payment_to_provider(payment_data: Payment) -> string
+
+OrderManagement:
+  notify_transaction_status(transaction_status: string) -> string
+  create_order_record(transaction_data: Payment) -> Order
+  get_order_details(order_id: string) -> Order
+
+EmailService:
+  send_email(email_data: dict) -> string
+
+ReviewsRatings:
+  store_feedback(product_id: string, feedback_data: Rating) -> string
+  get_product_feedback(product_id: string) -> list[Rating]
+
+Wishlist:
+  add_product_to_wishlist(product_id: string) -> string
+  remove_product_from_wishlist(product_id: string) -> string
+  get_wishlist_contents() -> list[WishlistItem]
+
+CustomerSupport:
+  receive_inquiry(inquiry_data: CustomerSupportTicket) -> string
+  provide_assistance(inquiry_id: string, response_data: dict) -> string
+
+ShippingDelivery:
+  calculate_shipping_cost(address_data: string, package_data: list[CartItem]) -> float
+  update_shipping_address(user_id: string, new_address_data: string) -> string
+  interact_with_shipping_carriers(shipping_request: Shipping) -> string
+
+ShippingCarriers:
+  handle_shipment(shipment_data: Shipping) -> string
+  get_delivery_status(shipment_id: string) -> string
+
+OrderTracking:
+  retrieve_order_status(order_id: string) -> string
+  update_order_status(order_id: string, new_status: string) -> string
+
+PaymentProvider:
+  authorize_payment(payment_data: Payment) -> string
+```
+
+Can you design the file structure for this project in this programming language: python
+You:

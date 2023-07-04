@@ -1,0 +1,47 @@
+backlog
+名词解释和业务模型
+技术目标
+    规模/性能
+    可用性
+    扩展性
+    可测试性
+1. classDiagram
+2. 每个component的设计图
+3. 代码框架
+4. 数据库
+5. 技术栈
+6. 风险
+    性能，资金，客诉，人力，部署
+7. 遗留待确认问题
+8. 迭代拆分
+
+
+
+技术设计核心：
+User Interface (UI): This is the part of the system that users interact with directly. It could be a graphical interface for desktop or web applications, a command-line interface for console applications, or a touch interface for mobile applications.
+Application Logic (Business Logic): This is the part of the system that performs the core functionality. It implements the rules, workflows, and computations that the system is designed to carry out.
+Database (Data Storage): Many software systems store data that they work with in some form of a database. It could be a relational database like MySQL or PostgreSQL, a NoSQL database like MongoDB, or a file-based storage system.
+Data Access Layer: This is the part of the system that interacts with the database. It provides an interface for the application logic to store and retrieve data, often using an Object-Relational Mapping (ORM) system.
+APIs (Application Programming Interfaces): These are interfaces that allow other systems to interact with the software system. They provide a predefined set of commands or requests that external systems can use.
+
+
+1. 解释每个component的能力（流程图 w example）
+2. 生成代码框架的能力
+3. 设计数据库的能力？
+4. SVG -> image
+
+
+to UI:
+components + diagram -> data types + interfaces
+
+Local:
+data types + interfaces + programming_language -> file structure
+interfaces + data types + file structure + programming_language -> implementation
+
+
+session -> mongodb
+        -> cloud storage ()
+cloud storage -> download
+
+
+chatView 而不是 requirementView
