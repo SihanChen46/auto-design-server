@@ -1,11 +1,12 @@
+from dotenv import load_dotenv  # nopep8
+load_dotenv()  # nopep8
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from dotenv import load_dotenv
-from data_types import ComponentReq, WorkflowReq, SequenceDiagramReq, SequenceDiagramResp, ImplementReq, ImplementResp
-from components.handlers import ComponentHandler, WorkflowHandler, SequenceDiagramHandler, ImplementHandler
+from data_types import ComponentReq, WorkflowReq, SequenceDiagramReq, SequenceDiagramResp, ImplementReq, ImplementResp, MessageReq, MessageResp, ImproveReq, ImproveResp
+from components.handlers import ComponentHandler, WorkflowHandler, SequenceDiagramHandler, ImplementHandler, MessageHandler, ImproveHandler
 
-load_dotenv()
 
 app = FastAPI()
 app.add_middleware(
@@ -20,6 +21,8 @@ component_handler = ComponentHandler()
 workflow_handler = WorkflowHandler()
 sequence_diagram_handler = SequenceDiagramHandler()
 implement_handler = ImplementHandler()
+message_handler = MessageHandler()
+improve_handler = ImproveHandler()
 
 
 @app.post("/new_component")
@@ -48,3 +51,24 @@ def generate(req: ImplementReq) -> ImplementResp:
     """generate implementation"""
     resp = implement_handler.handle(req)
     return resp
+
+
+@app.post("/new_message")
+def generate(req: MessageReq) -> MessageResp:
+    """generate implementation"""
+    resp = message_handler.handle(req)
+    return resp
+
+
+@app.post("/improve")
+def generate(req: ImproveReq) -> ImproveResp:
+    """generate implementation"""
+    resp = improve_handler.handle(req)
+    return resp
+
+
+# @app.post("/improve")
+# def generate(req: ImproveReq) -> ImproveResp:
+#     """generate implementation"""
+#     resp = improve_handler.handle(req)
+#     return resp

@@ -4,8 +4,8 @@ from common import log
 from fastapi.responses import StreamingResponse
 from components.chains.utils.stream_callback import ThreadedGenerator
 from concurrent.futures import ThreadPoolExecutor
-from components.handlers.session_saver_thread import SessionSaverThread
-from components.session import session_manager
+from components.handlers.checkpoint_saver_thread import CheckpointContentSaverThread
+from components.session import checkpoint_manager
 
 
 class ComponentHandler:
@@ -14,17 +14,17 @@ class ComponentHandler:
 
     def handle(self, req: ComponentReq) -> StreamingResponse:
         log.info(f"Received ComponentReq: {req}")
-        session_id = req.sessionId
+        checkpoint_id = req.checkpointId
         requirement = req.requirement
-        session_manager.save_content(
-            session_id,
+        checkpoint_manager.save_content(
+            checkpoint_id,
             'requirement',
             requirement
         )
         token_generator = ThreadedGenerator()
         future = self.executor.submit(ComponentChain(
             token_generator=token_generator).run, input=requirement)
-        saver = SessionSaverThread(session_id, 'components', future)
+        saver = CheckpointContentSaverThread(checkpoint_id, 'components', future)
         saver.start()
 
         # threading.Thread(target=ComponentChain(

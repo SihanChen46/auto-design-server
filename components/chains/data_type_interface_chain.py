@@ -240,7 +240,7 @@ AnalyticsMonitor:
   monitor_user_activity(user_activity: dict[string, list[Tweet]]) -> None
 ```
 
-Now:
+Now
 User:
 List of Components:
 ```

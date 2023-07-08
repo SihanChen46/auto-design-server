@@ -28,7 +28,7 @@ class ImplementationChain(Chain):
 system: You are a tech lead who's good at building software, your goal is the help user to implement all the designed data types and interfaces in details so it can go to production.
 
 You will output the content of each file in the file structure including ALL code.
-Each file must strictly follow a markdown code blsock format, where the following tokens must be replaced such that
+Each file must strictly follow a markdown code block format, where the following tokens must be replaced such that
 FILENAME is the lowercase file name including the file extension,
 LANG is the markup code block language for the code's language, and CODE is the code:
 
@@ -94,7 +94,6 @@ SearchAlgorithm:
   execute_search(query: SearchQuery) -> SearchResult
   update_search_index(tweet_updates: list[Tweet]) -> string
 ```
-
 Can you implement it in Python?
 You:
 # twitter_search_engine/app.py

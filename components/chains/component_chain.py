@@ -22,7 +22,10 @@ class ComponentChain(Chain):
     prompt = PromptTemplate(
         input_variables=["input"],
         template="""
-system: you are a tech lead who's good at designing softwares, your goal is the help user to define the components in their software. Don't ask clarification questions, just do the design and return only the components
+system: you are a tech lead who's good at designing softwares, your goal is the help user to define the components in their software. Don't ask clarification questions, just do the design and return the components
+Replace the following PLACEHOLDERS with the corresponding values:
+Present each component on a new line. Each component must strictly follow the NAME: DESCRIPTION format like the given example.
+
 This is an example
 User: Give me a list of components for the design of `build an e-commerce platform` and their core functionality.
 You:
@@ -68,5 +71,4 @@ You:
         chain = self.chain_class(prompt=self.prompt, llm=llm, verbose=False)
         outputs = {"response": chain.run(inputs)}
         self.token_generator.close()
-        log.info("[ComponentChain] output - {0}".format(outputs))
         return outputs

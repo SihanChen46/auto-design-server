@@ -3,9 +3,9 @@ from pydantic import BaseModel
 
 
 class WorkflowReq(BaseModel):
-    sessionId: Id
+    checkpointId: Id
 
 
 class WorkflowResp(BaseModel):
-    sessionId: Id
+    checkpointId: Id
     workflow: str
