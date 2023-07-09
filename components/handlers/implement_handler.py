@@ -13,10 +13,11 @@ class ImplementHandler:
     def handle(self, req: ImplementReq) -> ImplementResp:
         log.info(f"Received ImplementReq: {req}")
         programming_language = req.programmingLanguage
-        session_id = req.sessionId
+        checkpoint_id = req.checkpointId
 
-        components = checkpoint_manager.get_content(session_id, 'components')
-        sequence_diagram = checkpoint_manager.get_content(session_id, 'sequence_diagram')
+        components = checkpoint_manager.get_content(checkpoint_id, 'components')
+        sequence_diagram = checkpoint_manager.get_content(
+            checkpoint_id, 'sequence_diagram')
 
         outputs = DataTypeInterfaceChain()({
             'components': components,
@@ -40,24 +41,25 @@ class ImplementHandler:
         implementation = outputs['implementation']
 
         checkpoint_manager.save_content(
-            session_id, key='designed_data_types', content=designed_data_types)
+            checkpoint_id, key='designed_data_types', content=designed_data_types)
         checkpoint_manager.save_content(
-            session_id, key='designed_interfaces', content=designed_interfaces)
+            checkpoint_id, key='designed_interfaces', content=designed_interfaces)
         checkpoint_manager.save_content(
-            session_id, key='programming_language', content=programming_language)
+            checkpoint_id, key='programming_language', content=programming_language)
         checkpoint_manager.save_content(
-            session_id, key='designed_file_structure', content=designed_file_structure)
+            checkpoint_id, key='designed_file_structure', content=designed_file_structure)
         checkpoint_manager.save_content(
-            session_id, key='implementation', content=implementation)
+            checkpoint_id, key='implementation', content=implementation)
 
+        log.info(f"implementation: {implementation}")
         implementation_file_dict = self.parse_implementation(implementation)
         log.info(f"implementation_file_dict: {implementation_file_dict}")
-        self.implementation_to_files(
-            session_id, implementation_file_dict)  # save to cloud?
+        # self.implementation_to_files(
+        #     checkpoint_id, implementation_file_dict)  # save to cloud?
 
         resp = {
-            "sessionId": session_id,
-            "status": "success",
+            "checkpointId": checkpoint_id,
+            "content": implementation_file_dict,
         }
         log.info(f"Returned ImplementResp: {resp}")
 
@@ -66,7 +68,8 @@ class ImplementHandler:
     @staticmethod
     def parse_implementation(implementation):
         # Get all ``` blocks and preceding filenames
-        regex = r"(\S+)\n\s*```[^\n]*\n(.+?)```"
+        # regex = r"(\S+)\n\s*```[^\n]*\n(.+?)```"
+        regex = r"# (\S+)\n*```python\n(.+?)```"
         matches = re.finditer(regex, implementation, re.DOTALL)
 
         file_dict = {}
@@ -93,9 +96,9 @@ class ImplementHandler:
         return file_dict
 
     @staticmethod
-    def implementation_to_files(session_id, file_dict):
+    def implementation_to_files(checkpoint_id, file_dict):
         for file_path, file_code in file_dict.items():
-            file_path = os.path.join('generated_projects', session_id, file_path)
+            file_path = os.path.join('generated_projects', checkpoint_id, file_path)
 
             # Get the directory path
             directory = os.path.dirname(file_path)

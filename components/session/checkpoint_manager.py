@@ -20,6 +20,11 @@ class CheckpointManager(object):
         self.db = self.client[os.getenv('MONGODB_DB_NAME')]
         self.collection = self.db[self.COLLECTION_NAME]
 
+    def remove_checkpoint(self, checkpoint_id: str) -> None:
+        self.collection.delete_one({'_id': checkpoint_id})
+        log.info(
+            f'[CheckpointManager] remove_checkpoint: checkpoint_id: {checkpoint_id}')
+
     def get_content(self, checkpoint_id: str, key: str) -> str:
         checkpoint = self.collection.find_one({'_id': checkpoint_id}, {key: 1})
 

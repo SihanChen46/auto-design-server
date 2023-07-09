@@ -9,4 +9,4 @@ class ImplementReq(BaseModel):
 
 class ImplementResp(BaseModel):
     checkpointId: Id
-    status: str
+    content: dict

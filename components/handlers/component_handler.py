@@ -14,6 +14,7 @@ class ComponentHandler:
 
     def handle(self, req: ComponentReq) -> StreamingResponse:
         log.info(f"Received ComponentReq: {req}")
+        checkpoint_manager.remove_checkpoint(req.checkpointId)
         checkpoint_id = req.checkpointId
         requirement = req.requirement
         checkpoint_manager.save_content(

@@ -37,11 +37,11 @@ class ImproveHandler:
 
         requirement, components, workflow, sequence_diagram = self.parse_design(
             improved_design)
-        # checkpoint_manager.save_content(checkpoint_id, 'requirement', requirement)
-        # checkpoint_manager.save_content(checkpoint_id, 'components', components)
-        # checkpoint_manager.save_content(checkpoint_id, 'workflow', workflow)
-        # checkpoint_manager.save_content(
-        #     checkpoint_id, 'sequence_diagram', sequence_diagram)
+        checkpoint_manager.save_content(checkpoint_id, 'requirement', requirement)
+        checkpoint_manager.save_content(checkpoint_id, 'components', components)
+        checkpoint_manager.save_content(checkpoint_id, 'workflow', workflow)
+        checkpoint_manager.save_content(
+            checkpoint_id, 'sequence_diagram', sequence_diagram)
 
         resp = {
             "checkpointId": checkpoint_id,
