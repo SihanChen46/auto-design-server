@@ -9,9 +9,10 @@ from components.chains.workflow_chain import WorkflowChain
 from components.chains.data_type_interface_chain import DataTypeInterfaceChain
 from components.chains.file_structure_chain import FileStructureChain
 from components.chains.implementation_chain import ImplementationChain
+from components.chains.improve_chain import ImproveChain
 
 __all__ = [
     "ChatChain", "SummaryChain", "DesignChain",
     "DiagramChain", "WorkflowChain", "ComponentChain", "ClassDiagramChain", "SequenceDiagramChain",
-    "DataTypeInterfaceChain", "FileStructureChain", "ImplementationChain"
+    "DataTypeInterfaceChain", "FileStructureChain", "ImplementationChain", "ImproveChain",
 ]

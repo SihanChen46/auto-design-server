@@ -3,7 +3,7 @@ import re
 from data_types import ImplementReq, ImplementResp
 from components.chains import ImplementationChain, DataTypeInterfaceChain, FileStructureChain
 from common import log
-from components.session import session_manager
+from components.session import checkpoint_manager
 
 
 class ImplementHandler:
@@ -15,8 +15,8 @@ class ImplementHandler:
         programming_language = req.programmingLanguage
         session_id = req.sessionId
 
-        components = session_manager.get_content(session_id, 'components')
-        sequence_diagram = session_manager.get_content(session_id, 'sequence_diagram')
+        components = checkpoint_manager.get_content(session_id, 'components')
+        sequence_diagram = checkpoint_manager.get_content(session_id, 'sequence_diagram')
 
         outputs = DataTypeInterfaceChain()({
             'components': components,
@@ -38,6 +38,17 @@ class ImplementHandler:
             'programming_language': programming_language
         })
         implementation = outputs['implementation']
+
+        checkpoint_manager.save_content(
+            session_id, key='designed_data_types', content=designed_data_types)
+        checkpoint_manager.save_content(
+            session_id, key='designed_interfaces', content=designed_interfaces)
+        checkpoint_manager.save_content(
+            session_id, key='programming_language', content=programming_language)
+        checkpoint_manager.save_content(
+            session_id, key='designed_file_structure', content=designed_file_structure)
+        checkpoint_manager.save_content(
+            session_id, key='implementation', content=implementation)
 
         implementation_file_dict = self.parse_implementation(implementation)
         log.info(f"implementation_file_dict: {implementation_file_dict}")

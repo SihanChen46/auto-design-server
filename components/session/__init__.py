@@ -1,5 +1,5 @@
-from components.session.session_manager import SessionManager
+from components.session.checkpoint_manager import CheckpointManager
 
-session_manager = SessionManager()
+checkpoint_manager = CheckpointManager()
 
-__all__ = ["SessionManager", "session_manager"]
+__all__ = ["CheckpointManager", "checkpoint_manager"]

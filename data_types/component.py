@@ -3,10 +3,10 @@ from pydantic import BaseModel
 
 
 class ComponentReq(BaseModel):
-    sessionId: Id
+    checkpointId: Id
     requirement: str
 
 
 class ComponentResp(BaseModel):
-    sessionId: Id
+    checkpointId: Id
     components: str

@@ -3,9 +3,9 @@ from pydantic import BaseModel
 
 
 class SequenceDiagramReq(BaseModel):
-    sessionId: Id
+    checkpointId: Id
 
 
 class SequenceDiagramResp(BaseModel):
-    sessionId: Id
+    checkpointId: Id
     sequenceDiagramCode: str

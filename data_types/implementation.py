@@ -3,10 +3,10 @@ from pydantic import BaseModel
 
 
 class ImplementReq(BaseModel):
-    sessionId: Id
+    checkpointId: Id
     programmingLanguage: str
 
 
 class ImplementResp(BaseModel):
-    sessionId: Id
+    checkpointId: Id
     status: str

@@ -45,3 +45,46 @@ cloud storage -> download
 
 
 chatView 而不是 requirementView
+
+
+
+    
+MongoDB 计划：
+用户提交了首次design后，前端生成session_id和checkpoint_id，发送到后端，后端将生成的内容写入到checkpoint_id。前端收到结果后，会将该session_id保存下来。
+用户后续再提交POST请求。checkpoint_id会随着请求到后端来，由后端对checkpoint进行写入。除非当用户点击新增checkpoint/删除checkpoint/新增session/删除session。这些操作直接在前端api folder里完成
+对于展示用的查询请求，一律在前端api folder里完成。
+对于业务逻辑用的查询请求，后端也需要implement
+
+
+{
+    '_id': 'user1',  # 用户的唯一ID
+    'password': 'hashed_password',
+    'email': 'user1@example.com',
+    # 其他用户相关的信息...
+}
+
+{
+    '_id': 'session1',  # 会话的唯一ID
+    'user_id': 'user1',  # 对应用户集合中的用户的`_id`字段。
+    'current_checkpoint': 'checkpoint1',  # 当前活动的checkpoint的ID。
+    'created_at': datetime.datetime.utcnow(),  # 会话的创建时间
+    # 其他会话相关的信息...
+}
+
+{
+    "_id": "<checkpoint_id>",
+    "session_id": "<session_id>",
+    "parent_id": "<parent_checkpoint_id>",  // optional, for the root checkpoint it can be null
+    "create_time": "<create_time>",
+    "dialogues": [
+        {
+            "_id": "<dialogue_id>",
+            "content": "<dialogue_content>",
+            ...
+        },
+        ...
+    ],
+    "outline": "<story_outline>",
+    "story": "<full_story>",
+    'created_at': datetime.datetime.utcnow(),  # checkpoint的创建时间
+}
